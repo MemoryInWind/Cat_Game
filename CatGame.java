@@ -53,6 +53,8 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
     ArrayList<Item> barrierArray;
 
+    boolean gameOver = false;
+
     public CatGame(){
         setPreferredSize(new Dimension(panelWidth, panelHeight));
         setBackground(Color.lightGray);
@@ -84,6 +86,9 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     }
 
     void generateBarrier() {
+        if (gameOver) {
+            return;
+        }
         double barrierChance = Math.random();
         if (barrierChance > 0.90) {
             Item barrier = new Item(barrierX, barrierY, barrier3Width, barrierHeight, barrierImg3);
@@ -131,6 +136,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             barrier.x += barrierVelocity;
 
             if (collision(cat, barrier)) {
+                gameOver = true;
                 cat.img = catDeadImg;
             }
 
@@ -152,6 +158,10 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     public void actionPerformed(ActionEvent e) {
         move();
         repaint();
+        if (gameOver){
+            barrierTimer.stop();
+            timer.stop();
+        }
     }
     @Override
     public void keyPressed(KeyEvent e) {
