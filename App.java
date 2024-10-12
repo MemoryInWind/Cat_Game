@@ -14,6 +14,7 @@ public class App {
         CatGame catGame = new CatGame();
         frame.add(catGame);
         frame.pack();
+        catGame.requestFocus();
         frame.setVisible(true);
     }
 }
