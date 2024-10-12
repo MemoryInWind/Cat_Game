@@ -7,6 +7,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     int panelWidth = 750;
     int panelHeight = 250;
     Image catImg;
+    Image catDeadImg;
     Image barrierImg1;
     Image barrierImg2;
     Image barrierImg3;
@@ -61,6 +62,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         //render inmage
 
         catImg = new ImageIcon(getClass().getResource("/img/dino-run.gif")).getImage();
+        catDeadImg = new ImageIcon(getClass().getResource("/img/dino-dead.png")).getImage();
         barrierImg1 = new ImageIcon(getClass().getResource("/img/cactus1.png")).getImage();
         barrierImg2 = new ImageIcon(getClass().getResource("/img/cactus2.png")).getImage();
         barrierImg3 = new ImageIcon(getClass().getResource("/img/cactus3.png")).getImage();
@@ -128,6 +130,10 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             Item barrier = barrierArray.get(i);
             barrier.x += barrierVelocity;
 
+            if (collision(cat, barrier)) {
+                cat.img = catDeadImg;
+            }
+
             if (barrier.x + barrier.width < 0) { //if move outside screen
                 barrierArray.remove(i);
                 i--; //adjust index
@@ -135,6 +141,12 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         }
     }
 
+    boolean collision(Item itemA,Item itemB){
+        return itemA.x < itemB.x + itemB.width &&
+           itemA.x + itemA.width > itemB.x &&
+           itemA.y < itemB.y + itemB.height &&
+           itemA.y + itemA.height > itemB.y;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
