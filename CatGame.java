@@ -3,10 +3,12 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class CatGame extends JPanel {
+public class CatGame extends JPanel implements ActionListener{
     int panelWidth = 750;
     int panelHeight = 250;
     Image catImg;
+
+    Timer timer;
 
     class Item {
         int x;
@@ -36,9 +38,13 @@ public class CatGame extends JPanel {
         setPreferredSize(new Dimension(panelWidth, panelHeight));
         setBackground(Color.lightGray);
 
-        catImg = new ImageIcon(getClass().getResource("/img/dino.png")).getImage();
+        catImg = new ImageIcon(getClass().getResource("/img/dino-run.gif")).getImage();
 
         cat = new Item(catX, catY, catWidth, catHeight, catImg);
+
+        //game loop
+        timer = new Timer(1000/60, this);
+        timer.start();
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -48,6 +54,10 @@ public class CatGame extends JPanel {
     public void draw(Graphics g){
         //cat
         g.drawImage(cat.img, cat.x, cat.y, cat.width, cat.height, null);
+    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        repaint();
     }
  
 }
