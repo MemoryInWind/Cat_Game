@@ -7,7 +7,9 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     int panelWidth = 750;
     int panelHeight = 250;
     Image catImg;
-    Image barrierImg;
+    Image barrierImg1;
+    Image barrierImg2;
+    Image barrierImg3;
 
     Timer timer;
     Timer barrierTimer;
@@ -41,7 +43,9 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     Item cat;
 
     //barrier
-    int barrierWidth = 34;
+    int barrier1Width = 34;
+    int barrier2Width = 69;
+    int barrier3Width = 102;
     int barrierHeight = 70;
     int barrierX = 700;
     int barrierY = panelHeight - barrierHeight;
@@ -57,7 +61,9 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         //render inmage
 
         catImg = new ImageIcon(getClass().getResource("/img/dino-run.gif")).getImage();
-        barrierImg = new ImageIcon(getClass().getResource("/img/cactus1.png")).getImage();
+        barrierImg1 = new ImageIcon(getClass().getResource("/img/cactus1.png")).getImage();
+        barrierImg2 = new ImageIcon(getClass().getResource("/img/cactus2.png")).getImage();
+        barrierImg3 = new ImageIcon(getClass().getResource("/img/cactus3.png")).getImage();
         barrierArray = new ArrayList<Item>();
 
         cat = new Item(catX, catY, catWidth, catHeight, catImg);
@@ -76,8 +82,19 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     }
 
     void generateBarrier() {
-        Item barrier = new Item(barrierX, barrierY, barrierWidth, barrierHeight, barrierImg);
-        barrierArray.add(barrier);
+        double barrierChance = Math.random();
+        if (barrierChance > 0.90) {
+            Item barrier = new Item(barrierX, barrierY, barrier3Width, barrierHeight, barrierImg3);
+            barrierArray.add(barrier);
+        }
+        else if (barrierChance > 0.70) {
+            Item barrier = new Item(barrierX, barrierY, barrier2Width, barrierHeight, barrierImg2);
+            barrierArray.add(barrier);
+        }
+        else if (barrierChance > 0.50) {
+            Item barrier = new Item(barrierX, barrierY, barrier1Width, barrierHeight, barrierImg1);
+            barrierArray.add(barrier);
+        }
     }
 
     public void paintComponent(Graphics g){
