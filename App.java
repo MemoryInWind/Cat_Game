@@ -10,5 +10,10 @@ public class App {
         frame.setSize(frameWidth, frameHeight);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        CatGame catGame = new CatGame();
+        frame.add(catGame);
+        frame.pack();
+        frame.setVisible(true);
     }
 }
