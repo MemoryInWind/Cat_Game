@@ -18,6 +18,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     Timer barrierTimer;
     Timer rewardTimer;
     int jumpVelocity;
+    int maxJumpPosition;
     int gravity = 1;
     int barrierVelocity = -12;
     int bulletVelocity = 10;
@@ -79,7 +80,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     int rewardWidth = 30;
     int rewardHeight = 30;
     int rewardX = 700;
-    int rewardY = 200;
+    int rewardY;
 
     ArrayList<Item> barrierArray;
     ArrayList<Item> bulletArray;
@@ -151,6 +152,9 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
         cat = new Item(catX, catY, catWidth, catHeight, catImg);
 
+        //determine max position
+        maxJumpPosition= catY-(jumpVelocity * jumpVelocity) /(2*gravity);
+
         //game loop
         timer = new Timer(1000/60, this);
         timer.start();
@@ -195,8 +199,13 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         if (gameOver) {
             return;
         }
-        Item reward = new Item(rewardX, rewardY, rewardWidth, rewardHeight, rewardImg);
-        rewardArray.add(reward);
+        double rewardChance = Math.random();
+        
+        if (rewardChance > 0.20) {
+            rewardY = maxJumpPosition + (int) (Math.random() * (panelHeight - rewardHeight -maxJumpPosition));
+            Item reward = new Item(rewardX, rewardY, rewardWidth, rewardHeight, rewardImg);
+            rewardArray.add(reward);
+        }
 
     }
 
