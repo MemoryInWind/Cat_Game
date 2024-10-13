@@ -51,20 +51,20 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     }
 
     //cat
-    int catWidth = 39;
-    int catHeight = 30;
+    int catWidth = 130;
+    int catHeight = 100;
     int catX = 50;
     int catY = panelHeight - catHeight - 10;
     Item cat;
 
     //barrier
-    int barrier1Width = 25;
-    int barrier1Height = 32;
-    int barrier2Width = 43;
-    int barrier2Height = 30;
-    int barrier3Width = 66;
-    int barrier3Height = 46;
-    int barrierX = 700;
+    int barrier1Width = 76;
+    int barrier1Height = 100;
+    int barrier2Width = 143;
+    int barrier2Height = 100;
+    int barrier3Width = 183;
+    int barrier3Height = 116;
+    int barrierX = 1200;
     int barrier1Y = panelHeight - barrier1Height - 10;
     int barrier2Y = panelHeight - barrier2Height - 10;
     int barrier3Y = panelHeight - barrier3Height - 10;
@@ -105,12 +105,12 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
         //render image
 
-        catImg = new ImageIcon(getClass().getResource("/img/CatRunning.gif")).getImage();
-        catDeadImg = new ImageIcon(getClass().getResource("/img/dino-dead.png")).getImage();
+        catImg = new ImageIcon(getClass().getResource("/img/CatStart.png")).getImage();
+        catDeadImg = new ImageIcon(getClass().getResource("/img/CatStart.png")).getImage();
         barrierImg1 = new ImageIcon(getClass().getResource("/img/BarrierFireHydrant.png")).getImage();
         barrierImg2 = new ImageIcon(getClass().getResource("/img/BarrierBench.png")).getImage();
         barrierImg3 = new ImageIcon(getClass().getResource("/img/BarrierBike.png")).getImage();
-        bulletImg = new ImageIcon(getClass().getResource("/img/dino.png")).getImage();
+        bulletImg = new ImageIcon(getClass().getResource("/img/CatStart.png")).getImage();
         rewardImg = new ImageIcon(getClass().getResource("/img/FishReward.png")).getImage();
 
         barrierArray = new ArrayList<Item>();
