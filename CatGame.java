@@ -18,6 +18,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     int jumpVelocity;
     int gravity = 1;
     int barrierVelocity = -12;
+    int bulletVelocity = 10;
     boolean jumping = false;
 
     class Item {
@@ -158,6 +159,17 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             if (barrier.x + barrier.width < 0) { //if move outside screen
                 barrierArray.remove(i);
                 i--; //adjust index
+            }
+        }
+
+        //bullet move
+        for (int i = 0; i<bulletArray.size();i++){
+            Item bullet = bulletArray.get(i);
+            bullet.x += bulletVelocity;
+
+            if(bullet.x > panelWidth/3){
+                bulletArray.remove(i);
+                i--;
             }
         }
     }
