@@ -12,9 +12,11 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     Image barrierImg2;
     Image barrierImg3;
     Image bulletImg;
+    Image rewardImg;
 
     Timer timer;
     Timer barrierTimer;
+    Timer rewardTimer;
     int jumpVelocity;
     int gravity = 1;
     int barrierVelocity = -12;
@@ -67,13 +69,21 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     int bulletWidth = 20;
     int bulletHeight = 20;
     int bulletX = catX + catWidth;
-    //cool
 
+    //cool
     long lastBulletTime = 0;
     int coolDown = 500;
 
+    //reward
+    Item reward;
+    int rewardWidth = 30;
+    int rewardHeight = 30;
+    int rewardX = 700;
+    int rewardY = 200;
+
     ArrayList<Item> barrierArray;
     ArrayList<Item> bulletArray;
+    ArrayList<Item> rewardArray;
 
     boolean gameOver = false;
 
@@ -81,16 +91,13 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     JButton startButton = new JButton();
     JButton tutorialButton = new JButton();
 
-    
-    
-
     public CatGame(){
         setPreferredSize(new Dimension(panelWidth, panelHeight));
         setBackground(Color.lightGray);
         setFocusable(true);
         addKeyListener(this);
 
-        //render inmage
+        //render image
 
         catImg = new ImageIcon(getClass().getResource("/img/dino-run.gif")).getImage();
         catDeadImg = new ImageIcon(getClass().getResource("/img/dino-dead.png")).getImage();
@@ -98,8 +105,11 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         barrierImg2 = new ImageIcon(getClass().getResource("/img/cactus2.png")).getImage();
         barrierImg3 = new ImageIcon(getClass().getResource("/img/cactus3.png")).getImage();
         bulletImg = new ImageIcon(getClass().getResource("/img/dino.png")).getImage();
+        rewardImg = new ImageIcon(getClass().getResource("/img/dino.png")).getImage();
+
         barrierArray = new ArrayList<Item>();
         bulletArray = new ArrayList<Item>();
+        rewardArray = new ArrayList<Item>();
 
         ImageIcon startButtonImg = new ImageIcon(getClass().getResource("/img/StartButton.png"));
         ImageIcon tutorialButtonImg = new ImageIcon(getClass().getResource("/img/TutorialButton.png"));
@@ -152,6 +162,14 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             }
         });
         barrierTimer.start();
+
+        rewardTimer = new Timer(1500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                generateReward();
+            }
+        });
+        rewardTimer.start();
     }
 
     void generateBarrier() {
@@ -171,6 +189,15 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             Item barrier = new Item(barrierX, barrierY, barrier1Width, barrierHeight, barrierImg1);
             barrierArray.add(barrier);
         }
+    }
+
+    void generateReward() {
+        if (gameOver) {
+            return;
+        }
+        Item reward = new Item(rewardX, rewardY, rewardWidth, rewardHeight, rewardImg);
+        rewardArray.add(reward);
+
     }
 
     public void paintComponent(Graphics g){
@@ -196,6 +223,11 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         for (int i = 0; i < bulletArray.size(); i++){
             Item bullet = bulletArray.get(i);
             g.drawImage(bullet.img, bullet.x, bullet.y, bullet.width, bullet.height, null);
+        }
+        //draw reward
+        for (int i = 0; i < rewardArray.size(); i++){
+            Item reward = rewardArray.get(i);
+            g.drawImage(reward.img, reward.x, reward.y, reward.width, reward.height, null);
         }
     }
 
@@ -242,6 +274,18 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
                     bulletArray.remove(i);
                     i--;
                 }
+            }
+        }
+        //reward
+        for (int i = 0; i < rewardArray.size(); i++){
+            Item reward = rewardArray.get(i);
+            reward.x += barrierVelocity;
+            for (int j=0; j<barrierArray.size(); j++){
+                Item barrier = barrierArray.get(j);
+            }
+            if (reward.x + reward.width < 0) {
+                    rewardArray.remove(i);
+                    i--; //adjust index
             }
         }
     }
