@@ -58,12 +58,16 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     Item cat;
 
     //barrier
-    int barrier1Width = 34;
-    int barrier2Width = 69;
-    int barrier3Width = 102;
-    int barrierHeight = 70;
+    int barrier1Width = 25;
+    int barrier1Height = 32;
+    int barrier2Width = 43;
+    int barrier2Height = 30;
+    int barrier3Width = 66;
+    int barrier3Height = 46;
     int barrierX = 700;
-    int barrierY = panelHeight - barrierHeight;
+    int barrier1Y = panelHeight - barrier1Height - 10;
+    int barrier2Y = panelHeight - barrier2Height - 10;
+    int barrier3Y = panelHeight - barrier3Height - 10;
 
     //bullet
     Item bullet;
@@ -103,9 +107,9 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
         catImg = new ImageIcon(getClass().getResource("/img/CatRunning.gif")).getImage();
         catDeadImg = new ImageIcon(getClass().getResource("/img/dino-dead.png")).getImage();
-        barrierImg1 = new ImageIcon(getClass().getResource("/img/cactus1.png")).getImage();
-        barrierImg2 = new ImageIcon(getClass().getResource("/img/cactus2.png")).getImage();
-        barrierImg3 = new ImageIcon(getClass().getResource("/img/cactus3.png")).getImage();
+        barrierImg1 = new ImageIcon(getClass().getResource("/img/BarrierFireHydrant.png")).getImage();
+        barrierImg2 = new ImageIcon(getClass().getResource("/img/BarrierBench.png")).getImage();
+        barrierImg3 = new ImageIcon(getClass().getResource("/img/BarrierBike.png")).getImage();
         bulletImg = new ImageIcon(getClass().getResource("/img/dino.png")).getImage();
         rewardImg = new ImageIcon(getClass().getResource("/img/dino.png")).getImage();
 
@@ -183,15 +187,15 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         }
         double barrierChance = Math.random();
         if (barrierChance > 0.90) {
-            Item barrier = new Item(barrierX, barrierY, barrier3Width, barrierHeight, barrierImg3);
+            Item barrier = new Item(barrierX, barrier3Y, barrier3Width, barrier3Height, barrierImg3);
             barrierArray.add(barrier);
         }
         else if (barrierChance > 0.70) {
-            Item barrier = new Item(barrierX, barrierY, barrier2Width, barrierHeight, barrierImg2);
+            Item barrier = new Item(barrierX, barrier2Y, barrier2Width, barrier2Height, barrierImg2);
             barrierArray.add(barrier);
         }
         else if (barrierChance > 0.50) {
-            Item barrier = new Item(barrierX, barrierY, barrier1Width, barrierHeight, barrierImg1);
+            Item barrier = new Item(barrierX, barrier1Y, barrier1Width, barrier2Height, barrierImg1);
             barrierArray.add(barrier);
         }
     }
