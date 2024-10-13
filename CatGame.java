@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class CatGame extends JPanel implements ActionListener, KeyListener{
-    int panelWidth = 750;
-    int panelHeight = 250;
+    int panelWidth = 1200;
+    int panelHeight = 600;
     Image catImg;
     Image catDeadImg;
     Image barrierImg1;
@@ -227,7 +227,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
     public void draw(Graphics g){
         //draw background
-        Image startImg = new ImageIcon(getClass().getResource("/img/StreetBackground.png")).getImage();
+        Image startImg = new ImageIcon(getClass().getResource("/img/1200-600.png")).getImage();
         g.drawImage(startImg, 0, 0, null);
         //draw cat
         g.drawImage(cat.img, cat.x, cat.y, cat.width, cat.height, null);
