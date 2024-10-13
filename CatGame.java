@@ -222,6 +222,9 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     }
 
     public void draw(Graphics g){
+        //draw background
+        Image startImg = new ImageIcon(getClass().getResource("/img/StreetBackground.png")).getImage();
+        g.drawImage(startImg, 0, 0, null);
         //draw cat
         g.drawImage(cat.img, cat.x, cat.y, cat.width, cat.height, null);
         //draw barrier
