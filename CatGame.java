@@ -106,7 +106,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         });
 
         //tutorial button for the menu
-        tutorialButton.setBounds(320, 150, 100, 40);
+        tutorialButton.setBounds(295, 200, 150, 40);
         tutorialButton.setIcon(tutorialButtonImg);
         //remove border, background and outline of the button
         tutorialButton.setBorderPainted(false);
@@ -119,6 +119,10 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
                 tutorialButton.setVisible(false);
             }
         });
+
+        setLayout(null);
+        add(startButton);
+        add(tutorialButton);
 
         cat = new Item(catX, catY, catWidth, catHeight, catImg);
 
@@ -156,7 +160,13 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        draw(g);
+        Menu menu = new Menu();
+        
+        if (state == State.GAME) {
+            draw(g);
+        } else if (state == State.MENU) {
+            menu.render(g);
+        }
     }
 
     public void draw(Graphics g){
