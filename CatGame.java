@@ -11,6 +11,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     Image barrierImg1;
     Image barrierImg2;
     Image barrierImg3;
+    Image bulletImg;
 
     Timer timer;
     Timer barrierTimer;
@@ -68,6 +69,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         barrierImg1 = new ImageIcon(getClass().getResource("/img/cactus1.png")).getImage();
         barrierImg2 = new ImageIcon(getClass().getResource("/img/cactus2.png")).getImage();
         barrierImg3 = new ImageIcon(getClass().getResource("/img/cactus3.png")).getImage();
+        bulletImg = new ImageIcon(getClass().getResource("/img/dino.png")).getImage();
         barrierArray = new ArrayList<Item>();
 
         cat = new Item(catX, catY, catWidth, catHeight, catImg);
