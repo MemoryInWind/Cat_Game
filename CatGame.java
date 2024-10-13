@@ -11,12 +11,14 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     Image barrierImg1;
     Image barrierImg2;
     Image barrierImg3;
+    Image bulletImg;
 
     Timer timer;
     Timer barrierTimer;
     int jumpVelocity;
     int gravity = 1;
     int barrierVelocity = -12;
+    int bulletVelocity = 10;
     boolean jumping = false;
 
     // State
@@ -60,7 +62,18 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     int barrierX = 700;
     int barrierY = panelHeight - barrierHeight;
 
+    //bullet
+    Item bullet;
+    int bulletWidth = 20;
+    int bulletHeight = 20;
+    int bulletX = catX + catWidth;
+    //cool
+
+    long lastBulletTime = 0;
+    int coolDown = 500;
+
     ArrayList<Item> barrierArray;
+    ArrayList<Item> bulletArray;
 
     boolean gameOver = false;
 
@@ -84,7 +97,9 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         barrierImg1 = new ImageIcon(getClass().getResource("/img/cactus1.png")).getImage();
         barrierImg2 = new ImageIcon(getClass().getResource("/img/cactus2.png")).getImage();
         barrierImg3 = new ImageIcon(getClass().getResource("/img/cactus3.png")).getImage();
+        bulletImg = new ImageIcon(getClass().getResource("/img/dino.png")).getImage();
         barrierArray = new ArrayList<Item>();
+        bulletArray = new ArrayList<Item>();
 
         ImageIcon startButtonImg = new ImageIcon(getClass().getResource("/img/StartButton.png"));
         ImageIcon tutorialButtonImg = new ImageIcon(getClass().getResource("/img/TutorialButton.png"));
@@ -177,6 +192,11 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             Item barrier = barrierArray.get(i);
             g.drawImage(barrier.img, barrier.x, barrier.y, barrier.width, barrier.height, null);
         }
+        //draw bullet
+        for (int i = 0; i < bulletArray.size(); i++){
+            Item bullet = bulletArray.get(i);
+            g.drawImage(bullet.img, bullet.x, bullet.y, bullet.width, bullet.height, null);
+        }
     }
 
     public void move(){
@@ -205,6 +225,25 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
                 i--; //adjust index
             }
         }
+
+        //bullet move
+        for (int i = 0; i<bulletArray.size();i++){
+            Item bullet = bulletArray.get(i);
+            bullet.x += bulletVelocity;
+
+            if(bullet.x > panelWidth/3){
+                bulletArray.remove(i);
+                i--;
+            }
+            for(int j=0;j<barrierArray.size();j++){
+                Item barrier = barrierArray.get(j);
+                if (collision(bullet, barrier)){
+                    barrierArray.remove(j);
+                    bulletArray.remove(i);
+                    i--;
+                }
+            }
+        }
     }
 
     boolean collision(Item itemA,Item itemB){
@@ -229,7 +268,16 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             jumping = true; 
             jumpVelocity = -17;
         }
-    }
+        if (e.getKeyCode() == KeyEvent.VK_SPACE){
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastBulletTime >= coolDown){
+                Item bullet = new Item(bulletX, cat.y+(cat.height/2), bulletWidth, bulletHeight, bulletImg);
+                bulletArray.add(bullet);
+                lastBulletTime = currentTime;
+
+            }
+        }
+        }
     @Override
     public void keyTyped(KeyEvent e) {
     }
