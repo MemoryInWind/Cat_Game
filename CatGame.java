@@ -51,10 +51,10 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     }
 
     //cat
-    int catWidth = 88;
-    int catHeight = 94;
+    int catWidth = 39;
+    int catHeight = 30;
     int catX = 50;
-    int catY = panelHeight - catHeight;
+    int catY = panelHeight - catHeight - 10;
     Item cat;
 
     //barrier
@@ -101,7 +101,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
         //render image
 
-        catImg = new ImageIcon(getClass().getResource("/img/dino-run.gif")).getImage();
+        catImg = new ImageIcon(getClass().getResource("/img/CatRunning.gif")).getImage();
         catDeadImg = new ImageIcon(getClass().getResource("/img/dino-dead.png")).getImage();
         barrierImg1 = new ImageIcon(getClass().getResource("/img/cactus1.png")).getImage();
         barrierImg2 = new ImageIcon(getClass().getResource("/img/cactus2.png")).getImage();
