@@ -301,6 +301,10 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
                     rewardArray.remove(i);
                     i--; //adjust index
             }
+            if (collision(reward, cat)){
+                rewardArray.remove(i);
+                i--;
+            }
         }
     }
 
