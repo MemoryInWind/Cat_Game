@@ -81,8 +81,8 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
     //reward
     Item reward;
-    int rewardWidth = 30;
-    int rewardHeight = 30;
+    int rewardWidth = 26;
+    int rewardHeight = 20;
     int rewardX = 700;
     int rewardY;
 
@@ -111,7 +111,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         barrierImg2 = new ImageIcon(getClass().getResource("/img/BarrierBench.png")).getImage();
         barrierImg3 = new ImageIcon(getClass().getResource("/img/BarrierBike.png")).getImage();
         bulletImg = new ImageIcon(getClass().getResource("/img/dino.png")).getImage();
-        rewardImg = new ImageIcon(getClass().getResource("/img/dino.png")).getImage();
+        rewardImg = new ImageIcon(getClass().getResource("/img/FishReward.png")).getImage();
 
         barrierArray = new ArrayList<Item>();
         bulletArray = new ArrayList<Item>();
@@ -207,7 +207,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         double rewardChance = Math.random();
         
         if (rewardChance > 0.20) {
-            rewardY = maxJumpPosition + (int) (Math.random() * (panelHeight - rewardHeight -maxJumpPosition));
+            rewardY = maxJumpPosition + (int) (Math.random() * (panelHeight - rewardHeight -maxJumpPosition)) - 10;
             Item reward = new Item(rewardX, rewardY, rewardWidth, rewardHeight, rewardImg);
             rewardArray.add(reward);
         }
