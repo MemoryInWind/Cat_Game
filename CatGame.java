@@ -87,6 +87,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     ArrayList<Item> rewardArray;
 
     boolean gameOver = false;
+    int score = 0;
 
     //button
     JButton startButton = new JButton();
@@ -242,10 +243,10 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
     public void move(){
         //cat jump
-        if(jumping){
+        if (jumping) {
             cat.y += jumpVelocity;
             jumpVelocity += gravity;
-            if(cat.y > catY){
+            if (cat.y > catY) {
                 cat.y = catY;
                 jumping = false;
             }
@@ -268,15 +269,15 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         }
 
         //bullet move
-        for (int i = 0; i<bulletArray.size();i++){
+        for (int i = 0; i < bulletArray.size(); i++) {
             Item bullet = bulletArray.get(i);
             bullet.x += bulletVelocity;
 
-            if(bullet.x > panelWidth/3){
+            if (bullet.x > panelWidth / 3) {
                 bulletArray.remove(i);
                 i--;
             }
-            for(int j=0;j<barrierArray.size();j++){
+            for (int j = 0; j < barrierArray.size(); j++) {
                 Item barrier = barrierArray.get(j);
                 if (collision(bullet, barrier)){
                     barrierArray.remove(j);
@@ -286,10 +287,10 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             }
         }
         //reward
-        for (int i = 0; i < rewardArray.size(); i++){
+        for (int i = 0; i < rewardArray.size(); i++) {
             Item reward = rewardArray.get(i);
             reward.x += barrierVelocity;
-            for (int j=0; j<barrierArray.size(); j++){
+            for (int j = 0; j < barrierArray.size(); j++) {
                 Item barrier = barrierArray.get(j);
                 if (collision(reward, barrier)){
                     rewardArray.remove(i);
@@ -298,14 +299,16 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
                 }
             }
             if (reward.x + reward.width < 0) {
-                    rewardArray.remove(i);
-                    i--; //adjust index
+                rewardArray.remove(i);
+                i--; //adjust index
             }
-            if (collision(reward, cat)){
+            if (collision(reward, cat)) {
+                score += 100;
                 rewardArray.remove(i);
                 i--;
             }
         }
+        score++;
     }
 
     boolean collision(Item itemA,Item itemB){
@@ -319,7 +322,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     public void actionPerformed(ActionEvent e) {
         move();
         repaint();
-        if (gameOver){
+        if (gameOver) {
             barrierTimer.stop();
             timer.stop();
         }
@@ -330,7 +333,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             jumping = true; 
             jumpVelocity = -17;
         }
-        if (e.getKeyCode() == KeyEvent.VK_SPACE){
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             long currentTime = System.currentTimeMillis();
             if (currentTime - lastBulletTime >= coolDown){
                 Item bullet = new Item(bulletX, cat.y+(cat.height/2), bulletWidth, bulletHeight, bulletImg);
