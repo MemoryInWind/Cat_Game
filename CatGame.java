@@ -19,6 +19,15 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     int barrierVelocity = -12;
     boolean jumping = false;
 
+    // State
+    public static enum State {
+        MENU,
+        GAME,
+        END
+    };
+
+    public static State state = State.MENU;
+
     class Item {
         int x;
         int y;
@@ -55,6 +64,13 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
     boolean gameOver = false;
 
+    //button
+    JButton startButton = new JButton();
+    JButton tutorialButton = new JButton();
+
+    
+    
+
     public CatGame(){
         setPreferredSize(new Dimension(panelWidth, panelHeight));
         setBackground(Color.lightGray);
@@ -69,6 +85,40 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         barrierImg2 = new ImageIcon(getClass().getResource("/img/cactus2.png")).getImage();
         barrierImg3 = new ImageIcon(getClass().getResource("/img/cactus3.png")).getImage();
         barrierArray = new ArrayList<Item>();
+
+        ImageIcon startButtonImg = new ImageIcon(getClass().getResource("/img/StartButton.png"));
+        ImageIcon tutorialButtonImg = new ImageIcon(getClass().getResource("/img/TutorialButton.png"));
+
+        //start button for the menu
+        startButton.setBounds(320, 150, 100, 40);
+        startButton.setIcon(startButtonImg);
+        //remove border, background and outline of the button
+        startButton.setBorderPainted(false);
+        startButton.setContentAreaFilled(false);
+        startButton.setFocusPainted(false);
+        startButton.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                System.out.println("Start button clicked");
+                state = State.GAME;
+                startButton.setVisible(false);
+                tutorialButton.setVisible(false);
+            }
+        });
+
+        //tutorial button for the menu
+        tutorialButton.setBounds(320, 150, 100, 40);
+        tutorialButton.setIcon(tutorialButtonImg);
+        //remove border, background and outline of the button
+        tutorialButton.setBorderPainted(false);
+        tutorialButton.setContentAreaFilled(false);
+        tutorialButton.setFocusPainted(false);
+        tutorialButton.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                System.out.println("Tutorial");
+                startButton.setVisible(false);
+                tutorialButton.setVisible(false);
+            }
+        });
 
         cat = new Item(catX, catY, catWidth, catHeight, catImg);
 
