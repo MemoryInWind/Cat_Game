@@ -171,6 +171,14 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
                 bulletArray.remove(i);
                 i--;
             }
+            for(int j=0;j<barrierArray.size();j++){
+                Item barrier = barrierArray.get(j);
+                if (collision(bullet, barrier)){
+                    barrierArray.remove(j);
+                    bulletArray.remove(i);
+                    i--;
+                }
+            }
         }
     }
 
