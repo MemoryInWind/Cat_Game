@@ -325,6 +325,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         if (gameOver) {
             barrierTimer.stop();
             timer.stop();
+            rewardTimer.stop();
         }
     }
     @Override
