@@ -52,7 +52,14 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     int barrierX = 700;
     int barrierY = panelHeight - barrierHeight;
 
+    //bullet
+    Item bullet;
+    int bulletWidth = 20;
+    int bulletHeight = 20;
+    int bulletX = catX + catWidth;
+
     ArrayList<Item> barrierArray;
+    ArrayList<Item> bulletArray;
 
     boolean gameOver = false;
 
@@ -71,6 +78,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         barrierImg3 = new ImageIcon(getClass().getResource("/img/cactus3.png")).getImage();
         bulletImg = new ImageIcon(getClass().getResource("/img/dino.png")).getImage();
         barrierArray = new ArrayList<Item>();
+        bulletArray = new ArrayList<Item>();
 
         cat = new Item(catX, catY, catWidth, catHeight, catImg);
 
@@ -118,6 +126,11 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         for (int i = 0; i < barrierArray.size(); i++){
             Item barrier = barrierArray.get(i);
             g.drawImage(barrier.img, barrier.x, barrier.y, barrier.width, barrier.height, null);
+        }
+        //draw bullet
+        for (int i = 0; i < bulletArray.size(); i++){
+            Item bullet = bulletArray.get(i);
+            g.drawImage(bullet.img, bullet.x, bullet.y, bullet.width, bullet.height, null);
         }
     }
 
@@ -171,7 +184,11 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             jumping = true; 
             jumpVelocity = -17;
         }
-    }
+        if (e.getKeyCode() == KeyEvent.VK_SPACE){
+            Item bullet = new Item(bulletX, cat.y+(cat.height/2), bulletWidth, bulletHeight, bulletImg);
+            bulletArray.add(bullet);
+        }
+        }
     @Override
     public void keyTyped(KeyEvent e) {
     }
