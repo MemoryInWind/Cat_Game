@@ -53,7 +53,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     //cat
     int catWidth = 130;
     int catHeight = 100;
-    int catX = 50;
+    int catX = 40;
     int catY = panelHeight - catHeight - 10;
     Item cat;
 
@@ -133,6 +133,8 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
                 state = State.GAME;
                 startButton.setVisible(false);
                 tutorialButton.setVisible(false);
+                revalidate();
+                repaint();
             }
         });
 
