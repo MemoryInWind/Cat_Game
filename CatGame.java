@@ -20,8 +20,8 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     int jumpVelocity;
     int maxJumpPosition;
     int gravity = 1;
-    int barrierVelocity = -12;
-    int bulletVelocity = 10;
+    int barrierVelocity = -17;
+    int bulletVelocity = 15;
     boolean jumping = false;
 
     // State
@@ -83,7 +83,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     Item reward;
     int rewardWidth = 26;
     int rewardHeight = 20;
-    int rewardX = 700;
+    int rewardX = 1200;
     int rewardY;
 
     ArrayList<Item> barrierArray;
