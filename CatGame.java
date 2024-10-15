@@ -20,7 +20,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     int jumpVelocity;
     int maxJumpPosition;
     int gravity = 1;
-    int barrierVelocity = -17;
+    int barrierVelocity = -18;
     int bulletVelocity = 15;
     boolean jumping = false;
 
@@ -231,8 +231,6 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         //draw background
         Image startImg = new ImageIcon(getClass().getResource("/img/1200-600.png")).getImage();
         g.drawImage(startImg, 0, 0, null);
-        //draw cat
-        g.drawImage(cat.img, cat.x, cat.y, cat.width, cat.height, null);
         //draw barrier
         for (int i = 0; i < barrierArray.size(); i++){
             Item barrier = barrierArray.get(i);
@@ -248,6 +246,8 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             Item reward = rewardArray.get(i);
             g.drawImage(reward.img, reward.x, reward.y, reward.width, reward.height, null);
         }
+        //draw cat
+        g.drawImage(cat.img, cat.x, cat.y, cat.width, cat.height, null);
     }
 
     public void move(){
@@ -341,7 +341,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_UP && !jumping) {
             jumping = true; 
-            jumpVelocity = -17;
+            jumpVelocity = -18;
         }
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             long currentTime = System.currentTimeMillis();
