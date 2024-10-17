@@ -129,6 +129,10 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
                 state = State.GAME;
                 startButton.setVisible(false);
                 tutorialButton.setVisible(false);
+                //start the timer
+                timer.start();
+                barrierTimer.start();
+                rewardTimer.start();
             }
         });
 
@@ -158,7 +162,6 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
         //game loop
         timer = new Timer(1000/60, this);
-        timer.start();
 
         barrierTimer = new Timer(1500, new ActionListener() {
             @Override
@@ -166,7 +169,6 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
                 generateBarrier();
             }
         });
-        barrierTimer.start();
 
         rewardTimer = new Timer(1500, new ActionListener() {
             @Override
@@ -174,7 +176,6 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
                 generateReward();
             }
         });
-        rewardTimer.start();
     }
 
     void generateBarrier() {
