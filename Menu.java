@@ -41,6 +41,7 @@ public class Menu extends JPanel{
     
     public void render(Graphics g) {
         g.drawImage(startImg, 0, 0, null);
+        System.out.println("Rendering Menu...");
 
     }
     public void addButtons (JPanel panel) {

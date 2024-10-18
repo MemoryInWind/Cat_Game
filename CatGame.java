@@ -15,6 +15,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     Image rewardImg;
 
     Menu menu;
+    EndInterface endInterface;
 
     Timer timer;
     Timer barrierTimer;
@@ -113,12 +114,17 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         bulletArray = new ArrayList<Item>();
         rewardArray = new ArrayList<Item>();
 
-        ImageIcon startButtonImg = new ImageIcon(getClass().getResource("/img/StartButton.png"));
-        ImageIcon tutorialButtonImg = new ImageIcon(getClass().getResource("/img/TutorialButton.png"));
-
+        //initialize menu
         menu = new Menu();
         menu.addButtons(this); 
         menu.addActionListeners(this);
+        //initialize end interface
+        endInterface = new EndInterface();
+        endInterface.addButtons(this);
+        endInterface.addActionListeners(this);
+        endInterface.setVisible(false);
+        this.add(endInterface);
+
         this.repaint();
 
         cat = new Item(catX, catY, catWidth, catHeight, catImg);
@@ -154,9 +160,23 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     }
 
     //show the tutorial
-    public void showTutorial() {
+    void showTutorial() {
         System.out.println("Showing tutorial...");
         menu.setVisible(false); 
+    }
+
+    void retryGame() {
+        state = State.GAME;
+        endInterface.setVisible(false);
+
+        timer.start();
+        barrierTimer.start();
+        rewardTimer.start();
+    }
+
+    void showMainMenu(){
+        state = State.MENU;
+
     }
 
     void generateBarrier() {
@@ -200,6 +220,8 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             draw(g);
         } else if (state == State.MENU) {
             menu.render(g);
+        } else if (state == State.END) {
+            endInterface.render(g);
         }
     }
 
@@ -314,6 +336,9 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             barrierTimer.stop();
             timer.stop();
             rewardTimer.stop();
+            state = State.END;
+
+            endInterface.setVisible(true);
         }
     }
     @Override
