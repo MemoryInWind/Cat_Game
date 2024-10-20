@@ -17,6 +17,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
     Menu menu;
     EndInterface endInterface;
+    Tutorial tutorial;
 
     Timer timer;
     Timer barrierTimer;
@@ -33,7 +34,8 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     public static enum State {
         MENU,
         GAME,
-        END
+        END,
+        TUTORIAL
     };
 
     public static State state = State.MENU;
@@ -139,6 +141,12 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         endInterface.addActionListeners(this);
         endInterface.setVisible(false);
         this.add(endInterface);
+        //initialize tutorial
+        tutorial = new Tutorial();
+        tutorial.addButtons(this);
+        tutorial.addActionListeners(this);
+        tutorial.setVisible(false);
+        this.add(tutorial);
 
         this.repaint();
 
@@ -189,21 +197,27 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
     //show the tutorial
     void showTutorial() {
+        state = State.TUTORIAL;
         menu.setVisible(false); 
+        tutorial.setVisible(true);
+        repaint();
     }
 
-    void retryGame() {
-        state = State.GAME;
+    void resetGame(){
         gameOver = false;
         cat.img = catImg;
         score = 0;
         barrierArray.clear();
         rewardArray.clear();
         bulletArray.clear();
+    }
+
+    void retryGame() {
+        resetGame();
+        state = State.GAME;
         //hide endInterface 
         endInterface.setVisible(false);
-
-
+        //start new game loop
         timer.start();
         barrierTimer.start();
         rewardTimer.start();
@@ -211,8 +225,12 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     }
 
     void showMainMenu(){
+        resetGame();
+        endInterface.setVisible(false);
+        tutorial.setVisible(false);
         state = State.MENU;
-
+        repaint();
+        menu.setVisible(true);
     }
 
     void generateBarrier() {
