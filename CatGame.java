@@ -13,6 +13,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     Image barrierImg3;
     Image bulletImg;
     Image rewardImg;
+    Image scoreFrameImg;
 
     Menu menu;
     EndInterface endInterface;
@@ -90,6 +91,14 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     int rewardX = 1200;
     int rewardY;
 
+    //score frame
+    Item scoreFrame;
+    int frameWidth = 395;
+    int frameHeight = 50;
+    int frameX = 800;
+    int frameY = 10;
+
+
     ArrayList<Item> barrierArray;
     ArrayList<Item> bulletArray;
     ArrayList<Item> rewardArray;
@@ -114,6 +123,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         barrierImg3 = new ImageIcon(getClass().getResource("/img/BarrierBike.png")).getImage();
         bulletImg = new ImageIcon(getClass().getResource("/img/Bullet.png")).getImage();
         rewardImg = new ImageIcon(getClass().getResource("/img/FishReward.png")).getImage();
+        scoreFrameImg = new ImageIcon(getClass().getResource("/img/ScoreFrame.png")).getImage();
 
         barrierArray = new ArrayList<Item>();
         bulletArray = new ArrayList<Item>();
@@ -133,6 +143,8 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         this.repaint();
 
         cat = new Item(catX, catY, catWidth, catHeight, catImg);
+
+        scoreFrame = new Item(frameX, frameY, frameWidth, frameHeight, scoreFrameImg);
 
         //determine max position
         maxJumpPosition= catY-(jumpVelocity * jumpVelocity) /(2*gravity) - catHeight;
@@ -269,6 +281,9 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         }
         //draw cat
         g.drawImage(cat.img, cat.x, cat.y, cat.width, cat.height, null);
+        //draw score frame
+        g.drawImage(scoreFrame.img, scoreFrame.x, scoreFrame.y, scoreFrame.width, scoreFrame.height, null);
+
         //draw score
         g.setFont(new Font("Arial",Font.BOLD,24));
         g.setColor(Color.BLACK);
