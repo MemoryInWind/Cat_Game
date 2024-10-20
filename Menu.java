@@ -19,7 +19,7 @@ public class Menu extends JPanel{
 
         //initialize start button
         startButton = new JButton();
-        startButton.setBounds(320, 150, 100, 40);
+        startButton.setBounds(515, 400, 170, 60);
         startButton.setIcon(startButtonImg);
         startButton.setBorderPainted(false);
         startButton.setContentAreaFilled(false);
@@ -27,7 +27,7 @@ public class Menu extends JPanel{
 
     //initialize tutorial button
         tutorialButton = new JButton();
-        tutorialButton.setBounds(295, 200, 150, 40);
+        tutorialButton.setBounds(482, 490, 235, 60);
         tutorialButton.setIcon(tutorialButtonImg);
         tutorialButton.setBorderPainted(false);
         tutorialButton.setContentAreaFilled(false);
