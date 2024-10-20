@@ -9,11 +9,14 @@ public class EndInterface extends JPanel{
     Image endImg;
     ImageIcon retryButtonImg;
     ImageIcon mainMenuButtonImg;
+    Image endScoreFrameImg;
+    int finalScore;
     
     public EndInterface() {
         endImg = new ImageIcon(getClass().getResource("/img/EndInterface_Background.png")).getImage();
         retryButtonImg = new ImageIcon(getClass().getResource("/img/RetryButton.png"));
         mainMenuButtonImg = new ImageIcon(getClass().getResource("/img/MainMenuButton.png"));
+        endScoreFrameImg = new ImageIcon(getClass().getResource("/img/EndScoreFrame.png")).getImage();
         //initialize retryButton
         retryButton = new JButton();
         retryButton.setBounds(516, 400, 169, 60);
@@ -32,8 +35,17 @@ public class EndInterface extends JPanel{
         setLayout(null);
     }
 
+    public void setFinalScore(int score){
+        this.finalScore = score;
+    }
+
     public void render(Graphics g) {
         g.drawImage(endImg, 0, 0, null);
+        g.drawImage(endScoreFrameImg, 0, 0 , null);
+        //draw score
+        g.setFont(new Font("Arial",Font.BOLD,36));
+        g.setColor(Color.BLACK);
+        g.drawString("" + finalScore, 0,48);
     }
 
     public void addButtons (JPanel panel) {

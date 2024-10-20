@@ -360,12 +360,6 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         }
         score++;
     }
-    //game end 
-    public void gameOver(){
-        if(gameOver){
-
-        }
-    }
 
     boolean collision(Item itemA,Item itemB){
         return itemA.x < itemB.x + itemB.width &&
@@ -382,6 +376,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             barrierTimer.stop();
             timer.stop();
             rewardTimer.stop();
+            endInterface.setFinalScore(score);
             endGameTimer.start();
         }
     }
