@@ -16,7 +16,7 @@ public class EndInterface extends JPanel{
         endImg = new ImageIcon(getClass().getResource("/img/EndInterface_Background.png")).getImage();
         retryButtonImg = new ImageIcon(getClass().getResource("/img/RetryButton.png"));
         mainMenuButtonImg = new ImageIcon(getClass().getResource("/img/MainMenuButton.png"));
-        endScoreFrameImg = new ImageIcon(getClass().getResource("/img/EndScoreFrame.png")).getImage();
+        endScoreFrameImg = new ImageIcon(getClass().getResource("/img/ScoreFrame-60.png")).getImage();
         //initialize retryButton
         retryButton = new JButton();
         retryButton.setBounds(516, 400, 169, 60);

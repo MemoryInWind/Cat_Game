@@ -125,7 +125,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         barrierImg3 = new ImageIcon(getClass().getResource("/img/BarrierBike.png")).getImage();
         bulletImg = new ImageIcon(getClass().getResource("/img/Bullet.png")).getImage();
         rewardImg = new ImageIcon(getClass().getResource("/img/FishReward.png")).getImage();
-        scoreFrameImg = new ImageIcon(getClass().getResource("/img/ScoreFrame.png")).getImage();
+        scoreFrameImg = new ImageIcon(getClass().getResource("/img/ScoreFrame-50.png")).getImage();
 
         barrierArray = new ArrayList<Item>();
         bulletArray = new ArrayList<Item>();
