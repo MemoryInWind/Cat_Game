@@ -147,7 +147,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         scoreFrame = new Item(frameX, frameY, frameWidth, frameHeight, scoreFrameImg);
 
         //determine max position
-        maxJumpPosition= catY-(jumpVelocity * jumpVelocity) /(2*gravity) - catHeight;
+        maxJumpPosition= catY-(jumpVelocity * jumpVelocity) /(2 * gravity) - catHeight;
 
         //game loop
         timer = new Timer(1000/60, this);
@@ -285,10 +285,10 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         g.drawImage(scoreFrame.img, scoreFrame.x, scoreFrame.y, scoreFrame.width, scoreFrame.height, null);
 
         //draw score
-        g.setFont(new Font("Arial",Font.BOLD,24));
+        g.setFont(new Font("Arial",Font.BOLD,36));
         g.setColor(Color.BLACK);
         String scoreText = "" + score;
-        g.drawString(scoreText, panelWidth - 150,30);
+        g.drawString(scoreText, panelWidth - 250,48);
     }
 
     public void move(){
