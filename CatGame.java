@@ -14,9 +14,13 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     Image bulletImg;
     Image rewardImg;
 
+    Menu menu;
+    EndInterface endInterface;
+
     Timer timer;
     Timer barrierTimer;
     Timer rewardTimer;
+    Timer endGameTimer;
     int jumpVelocity;
     int maxJumpPosition;
     int gravity = 1;
@@ -93,9 +97,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     boolean gameOver = false;
     int score = 0;
 
-    //button
-    JButton startButton = new JButton();
-    JButton tutorialButton = new JButton();
+
 
     public CatGame(){
         setPreferredSize(new Dimension(panelWidth, panelHeight));
@@ -117,45 +119,18 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         bulletArray = new ArrayList<Item>();
         rewardArray = new ArrayList<Item>();
 
-        ImageIcon startButtonImg = new ImageIcon(getClass().getResource("/img/StartButton.png"));
-        ImageIcon tutorialButtonImg = new ImageIcon(getClass().getResource("/img/TutorialButton.png"));
+        //initialize menu
+        menu = new Menu();
+        menu.addButtons(this); 
+        menu.addActionListeners(this);
+        //initialize end interface
+        endInterface = new EndInterface();
+        endInterface.addButtons(this);
+        endInterface.addActionListeners(this);
+        endInterface.setVisible(false);
+        this.add(endInterface);
 
-        //start button for the menu
-        startButton.setBounds(320, 150, 100, 40);
-        startButton.setIcon(startButtonImg);
-        //remove border, background and outline of the button
-        startButton.setBorderPainted(false);
-        startButton.setContentAreaFilled(false);
-        startButton.setFocusPainted(false);
-        startButton.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                System.out.println("Start button clicked");
-                state = State.GAME;
-                startButton.setVisible(false);
-                tutorialButton.setVisible(false);
-                revalidate();
-                repaint();
-            }
-        });
-
-        //tutorial button for the menu
-        tutorialButton.setBounds(295, 200, 150, 40);
-        tutorialButton.setIcon(tutorialButtonImg);
-        //remove border, background and outline of the button
-        tutorialButton.setBorderPainted(false);
-        tutorialButton.setContentAreaFilled(false);
-        tutorialButton.setFocusPainted(false);
-        tutorialButton.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                System.out.println("Tutorial");
-                startButton.setVisible(false);
-                tutorialButton.setVisible(false);
-            }
-        });
-
-        setLayout(null);
-        add(startButton);
-        add(tutorialButton);
+        this.repaint();
 
         cat = new Item(catX, catY, catWidth, catHeight, catImg);
 
@@ -164,7 +139,6 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
         //game loop
         timer = new Timer(1000/60, this);
-        timer.start();
 
         barrierTimer = new Timer(1500, new ActionListener() {
             @Override
@@ -172,7 +146,6 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
                 generateBarrier();
             }
         });
-        barrierTimer.start();
 
         rewardTimer = new Timer(1500, new ActionListener() {
             @Override
@@ -180,7 +153,55 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
                 generateReward();
             }
         });
+
+        endGameTimer = new Timer(1500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                state= State.END;
+                endInterface.setVisible(true);
+                repaint();
+                endGameTimer.stop();
+            }
+        });
+        endGameTimer.setRepeats(false);
+    }
+
+    //start the game after clicking play
+    void startGame() {
+        state = State.GAME;
+        menu.setVisible(false); 
+        timer.start();
+        barrierTimer.start();
         rewardTimer.start();
+    }
+
+    //show the tutorial
+    void showTutorial() {
+        System.out.println("Showing tutorial...");
+        menu.setVisible(false); 
+    }
+
+    void retryGame() {
+        state = State.GAME;
+        gameOver = false;
+        cat.img = catImg;
+        score = 0;
+        barrierArray.clear();
+        rewardArray.clear();
+        bulletArray.clear();
+        //hide endInterface 
+        endInterface.setVisible(false);
+
+
+        timer.start();
+        barrierTimer.start();
+        rewardTimer.start();
+        this.repaint();
+    }
+
+    void showMainMenu(){
+        state = State.MENU;
+
     }
 
     void generateBarrier() {
@@ -218,12 +239,13 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        Menu menu = new Menu();
-        
-        if (state == State.GAME) {
+        //according to current state 
+        if (state == State.GAME || endGameTimer.isRunning()) {
             draw(g);
         } else if (state == State.MENU) {
             menu.render(g);
+        } else if (state == State.END) {
+            endInterface.render(g);
         }
     }
 
@@ -319,6 +341,12 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         }
         score++;
     }
+    //game end 
+    public void gameOver(){
+        if(gameOver){
+
+        }
+    }
 
     boolean collision(Item itemA,Item itemB){
         return itemA.x < itemB.x + itemB.width &&
@@ -335,6 +363,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             barrierTimer.stop();
             timer.stop();
             rewardTimer.stop();
+            endGameTimer.start();
         }
     }
     @Override
