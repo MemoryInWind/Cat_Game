@@ -41,7 +41,6 @@ public class Menu extends JPanel{
     
     public void render(Graphics g) {
         g.drawImage(startImg, 0, 0, null);
-        System.out.println("Rendering Menu...");
 
     }
     public void addButtons (JPanel panel) {
@@ -59,7 +58,6 @@ public class Menu extends JPanel{
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Start button clicked");
                 game.startGame();
             }
         });
@@ -67,7 +65,6 @@ public class Menu extends JPanel{
         tutorialButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Tutorial button clicked");
                 game.showTutorial();
             }
         });

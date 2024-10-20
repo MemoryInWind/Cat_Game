@@ -49,7 +49,6 @@ public class EndInterface extends JPanel{
         retryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("retry button clicked");
                 game.retryGame();
             }
         });
@@ -57,7 +56,6 @@ public class EndInterface extends JPanel{
         mainMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Main Menu button clicked");
                 game.showMainMenu();
             }
         });

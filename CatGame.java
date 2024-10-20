@@ -177,7 +177,6 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
     //show the tutorial
     void showTutorial() {
-        System.out.println("Showing tutorial...");
         menu.setVisible(false); 
     }
 
