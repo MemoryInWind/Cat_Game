@@ -12,18 +12,18 @@ public class EndInterface extends JPanel{
     
     public EndInterface() {
         endImg = new ImageIcon(getClass().getResource("/img/EndInterface_Background.png")).getImage();
-        retryButtonImg = new ImageIcon(getClass().getResource("/img/StartButton.png"));
-        mainMenuButtonImg = new ImageIcon(getClass().getResource("/img/TutorialButton.png"));
+        retryButtonImg = new ImageIcon(getClass().getResource("/img/RetryButton.png"));
+        mainMenuButtonImg = new ImageIcon(getClass().getResource("/img/MainMenuButton.png"));
         //initialize retryButton
         retryButton = new JButton();
-        retryButton.setBounds(320, 150, 100, 40);
+        retryButton.setBounds(516, 400, 169, 60);
         retryButton.setIcon(retryButtonImg);
         retryButton.setBorderPainted(false);
         retryButton.setContentAreaFilled(false);
         retryButton.setFocusPainted(false);
         //initialize mainMenuButton
         mainMenuButton = new JButton();
-        mainMenuButton.setBounds(295, 200, 150, 40);
+        mainMenuButton.setBounds(456, 490, 289, 60);
         mainMenuButton.setIcon(mainMenuButtonImg);
         mainMenuButton.setBorderPainted(false);
         mainMenuButton.setContentAreaFilled(false);
