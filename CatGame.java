@@ -20,6 +20,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     Timer timer;
     Timer barrierTimer;
     Timer rewardTimer;
+    Timer endGameTimer;
     int jumpVelocity;
     int maxJumpPosition;
     int gravity = 1;
@@ -148,6 +149,17 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
                 generateReward();
             }
         });
+
+        endGameTimer = new Timer(1500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                state= State.END;
+                endInterface.setVisible(true);
+                repaint();
+                endGameTimer.stop();
+            }
+        });
+        endGameTimer.setRepeats(false);
     }
 
     //start the game after clicking play
@@ -223,9 +235,8 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        //Menu menu = new Menu();
-        
-        if (state == State.GAME) {
+        //according to current state 
+        if (state == State.GAME || endGameTimer.isRunning()) {
             draw(g);
         } else if (state == State.MENU) {
             menu.render(g);
@@ -345,9 +356,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             barrierTimer.stop();
             timer.stop();
             rewardTimer.stop();
-            state = State.END;
-
-            endInterface.setVisible(true);
+            endGameTimer.start();
         }
     }
     @Override
