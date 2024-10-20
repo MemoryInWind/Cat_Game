@@ -167,11 +167,20 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
     void retryGame() {
         state = State.GAME;
+        gameOver = false;
+        cat.img = catImg;
+        score = 0;
+        barrierArray.clear();
+        rewardArray.clear();
+        bulletArray.clear();
+        //hide endInterface 
         endInterface.setVisible(false);
+
 
         timer.start();
         barrierTimer.start();
         rewardTimer.start();
+        this.repaint();
     }
 
     void showMainMenu(){
