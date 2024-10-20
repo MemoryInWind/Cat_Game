@@ -269,6 +269,11 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         }
         //draw cat
         g.drawImage(cat.img, cat.x, cat.y, cat.width, cat.height, null);
+        //draw score
+        g.setFont(new Font("Arial",Font.BOLD,24));
+        g.setColor(Color.BLACK);
+        String scoreText = "" + score;
+        g.drawString(scoreText, panelWidth - 150,30);
     }
 
     public void move(){
