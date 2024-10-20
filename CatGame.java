@@ -75,8 +75,8 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
     //bullet
     Item bullet;
-    int bulletWidth = 20;
-    int bulletHeight = 20;
+    int bulletWidth = 40;
+    int bulletHeight = 40;
     int bulletX = catX + catWidth;
 
     //cool
@@ -85,8 +85,8 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
     //reward
     Item reward;
-    int rewardWidth = 26;
-    int rewardHeight = 20;
+    int rewardWidth = 48;
+    int rewardHeight = 47;
     int rewardX = 1200;
     int rewardY;
 
@@ -112,7 +112,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         barrierImg1 = new ImageIcon(getClass().getResource("/img/BarrierFireHydrant.png")).getImage();
         barrierImg2 = new ImageIcon(getClass().getResource("/img/BarrierBench.png")).getImage();
         barrierImg3 = new ImageIcon(getClass().getResource("/img/BarrierBike.png")).getImage();
-        bulletImg = new ImageIcon(getClass().getResource("/img/CatStart.png")).getImage();
+        bulletImg = new ImageIcon(getClass().getResource("/img/Bullet.png")).getImage();
         rewardImg = new ImageIcon(getClass().getResource("/img/FishReward.png")).getImage();
 
         barrierArray = new ArrayList<Item>();
