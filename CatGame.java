@@ -197,9 +197,9 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
     //show the tutorial
     void showTutorial() {
-        state = State.TUTORIAL;
         menu.setVisible(false); 
         tutorial.setVisible(true);
+        state = State.TUTORIAL;
         repaint();
     }
 
@@ -229,8 +229,8 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         endInterface.setVisible(false);
         tutorial.setVisible(false);
         state = State.MENU;
-        repaint();
         menu.setVisible(true);
+        repaint();
     }
 
     void generateBarrier() {
@@ -275,6 +275,8 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             menu.render(g);
         } else if (state == State.END) {
             endInterface.render(g);
+        } else if (state == State.TUTORIAL) {
+            tutorial.render(g);
         }
     }
 

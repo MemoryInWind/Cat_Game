@@ -9,11 +9,11 @@ public class Tutorial extends JPanel{
     ImageIcon mainMenuButtonImg;
     
     public Tutorial() {
-        tutorialImg = new ImageIcon(getClass().getResource("/img/EndInterface_Background.png")).getImage();
-        mainMenuButtonImg = new ImageIcon(getClass().getResource("/img/MainMenuButton.png"));
+        tutorialImg = new ImageIcon(getClass().getResource("/img/TutorialBackground.png")).getImage();
+        mainMenuButtonImg = new ImageIcon(getClass().getResource("/img/BackButton.png"));
         //initialize mainMenuButton
         mainMenuButton = new JButton();
-        mainMenuButton.setBounds(456, 490, 289, 60);
+        mainMenuButton.setBounds(514, 490, 173, 60);
         mainMenuButton.setIcon(mainMenuButtonImg);
         mainMenuButton.setBorderPainted(false);
         mainMenuButton.setContentAreaFilled(false);
