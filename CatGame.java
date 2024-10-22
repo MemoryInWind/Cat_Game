@@ -95,9 +95,9 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
     //score frame
     Item scoreFrame;
-    int frameWidth = 395;
+    int frameWidth = 305;
     int frameHeight = 50;
-    int frameX = 800;
+    int frameX = 850;
     int frameY = 10;
 
 
@@ -308,7 +308,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         g.setFont(new Font("Arial",Font.BOLD,36));
         g.setColor(Color.BLACK);
         String scoreText = "" + score;
-        g.drawString(scoreText, panelWidth - 250,48);
+        g.drawString(scoreText, panelWidth - 200,48);
     }
 
     public void move(){

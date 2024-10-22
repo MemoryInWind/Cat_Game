@@ -41,11 +41,11 @@ public class EndInterface extends JPanel{
 
     public void render(Graphics g) {
         g.drawImage(endImg, 0, 0, null);
-        g.drawImage(endScoreFrameImg, 363, 290 , null);
+        g.drawImage(endScoreFrameImg, 417, 290 , null);
         //draw score
         g.setFont(new Font("Arial",Font.BOLD,46));
         g.setColor(Color.BLACK);
-        g.drawString("" + finalScore, 540,336);
+        g.drawString("" + finalScore, 590,337);
     }
 
     public void addButtons (JPanel panel) {
