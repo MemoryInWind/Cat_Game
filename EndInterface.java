@@ -1,9 +1,12 @@
 import java.awt.*;
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
-public class EndInterface extends JPanel{
+/**
+ * The end screen after game end. Displays the final score and two buttons retry and main menu. 
+ */
+public class EndInterface extends JPanel {
     private JButton retryButton;
     private JButton mainMenuButton;
     Image endImg;
@@ -11,7 +14,10 @@ public class EndInterface extends JPanel{
     ImageIcon mainMenuButtonImg;
     Image endScoreFrameImg;
     int finalScore;
-    
+
+    /**
+     * The constructor for EndInterface class.
+     */
     public EndInterface() {
         endImg = new ImageIcon(getClass().getResource("/img/EndInterface_Background.png")).getImage();
         retryButtonImg = new ImageIcon(getClass().getResource("/img/RetryButton.png"));
@@ -35,31 +41,53 @@ public class EndInterface extends JPanel{
         setLayout(null);
     }
 
-    public void setFinalScore(int score){
+    /**
+     * pass the score from CatGame to EndInterface.
+     * @param score the final score in the game
+     */
+    public void setFinalScore(int score) {
         this.finalScore = score;
     }
 
+    /**
+     * render background and score.
+     * @param panel
+     */
     public void render(Graphics g) {
         g.drawImage(endImg, 0, 0, null);
-        g.drawImage(endScoreFrameImg, 417, 290 , null);
+        g.drawImage(endScoreFrameImg, 417, 290, null);
         //draw score
-        g.setFont(new Font("Arial",Font.BOLD,46));
+        g.setFont(new Font("Arial", Font.BOLD, 46));
         g.setColor(Color.BLACK);
-        g.drawString("" + finalScore, 590,337);
+        g.drawString("" + finalScore, 590, 337);
     }
 
-    public void addButtons (JPanel panel) {
+    /**
+     * add the retry and main menu buttons.
+     * @param panel
+     */
+    public void addButtons(JPanel panel) {
         panel.setLayout(null);
         panel.add(retryButton);
         panel.add(mainMenuButton);
     }
-    public void setVisible(boolean Visible) {
-        retryButton.setVisible(Visible);
-        mainMenuButton.setVisible(Visible);
+
+    /**
+     * set the visibility of buttons.
+     */
+    public void setVisible(boolean visible) {
+        retryButton.setVisible(visible);
+        mainMenuButton.setVisible(visible);
     }
+
+    /**
+     * behavior of the buttons.
+     * @param game the instance of the Catgame
+     */
     public void addActionListeners(CatGame game) {
         retryButton.addActionListener(new ActionListener() {
             @Override
+            //start a new instance of the game after pressing retry button
             public void actionPerformed(ActionEvent e) {
                 game.retryGame();
             }
@@ -67,11 +95,10 @@ public class EndInterface extends JPanel{
 
         mainMenuButton.addActionListener(new ActionListener() {
             @Override
+            //show main menu screen after pressing the main menu button
             public void actionPerformed(ActionEvent e) {
                 game.showMainMenu();
             }
         });
     }
-
-
 }

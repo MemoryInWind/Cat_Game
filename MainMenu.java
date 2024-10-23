@@ -1,18 +1,22 @@
 import java.awt.*;
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
-import org.w3c.dom.events.MouseEvent;
-
-public class Menu extends JPanel{
+/**
+ * The main menu at the start of the game. Displays button for game start and tutorial.    
+ */
+public class MainMenu extends JPanel{
     private JButton startButton;
     private JButton tutorialButton;
     Image startImg;
     ImageIcon tutorialButtonImg;
     ImageIcon startButtonImg;
 
-    public Menu(){
+    /**
+     * Constructor for MainMenu Class.
+     */
+    public MainMenu() {
         startImg = new ImageIcon(getClass().getResource("/img/StartInterface_Background.png")).getImage();
         startButtonImg = new ImageIcon(getClass().getResource("/img/StartButton.png"));
         tutorialButtonImg = new ImageIcon(getClass().getResource("/img/TutorialButton.png"));
@@ -25,7 +29,7 @@ public class Menu extends JPanel{
         startButton.setContentAreaFilled(false);
         startButton.setFocusPainted(false);
 
-    //initialize tutorial button
+        //initialize tutorial button
         tutorialButton = new JButton();
         tutorialButton.setBounds(482, 490, 235, 60);
         tutorialButton.setIcon(tutorialButtonImg);
@@ -37,24 +41,36 @@ public class Menu extends JPanel{
 
     }
 
-    
-    
+    /**
+     * render background.
+     * @param panel
+     */
     public void render(Graphics g) {
         g.drawImage(startImg, 0, 0, null);
 
+
     }
-    public void addButtons (JPanel panel) {
+
+    /**
+     * add the start and tutorial buttons.
+     * @param panel
+     */
+    public void addButtons(JPanel panel) {
         panel.setLayout(null);
         panel.add(startButton);
         panel.add(tutorialButton);
     }
 
-    public void setVisible(boolean Visible) {
-        startButton.setVisible(Visible);
-        tutorialButton.setVisible(Visible);
+    /**
+     * set the visibility of buttons.
+     */
+    public void setVisible(boolean visible) {
+        startButton.setVisible(visible);
+        tutorialButton.setVisible(visible);
     }
 
     public void addActionListeners(CatGame game) {
+        //start the game after pressing the start game button
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,6 +78,7 @@ public class Menu extends JPanel{
             }
         });
 
+        //show the tutorial screen after pressing the tutorial button
         tutorialButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -69,6 +86,4 @@ public class Menu extends JPanel{
             }
         });
     }
-
-
 }

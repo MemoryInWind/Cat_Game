@@ -3,50 +3,68 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class CatGame extends JPanel implements ActionListener, KeyListener{
+/**
+ * The main game class.
+ * Handle the loop, actions and rendering of the main game.
+ */
+public class CatGame extends JPanel implements ActionListener, KeyListener {
+    //the panel demensions
     int panelWidth = 1200;
     int panelHeight = 600;
+    //images for game elements
     Image catImg;
     Image catDeadImg;
     Image barrierImg1;
     Image barrierImg2;
     Image barrierImg3;
     Image bulletImg;
-    Image rewardImg;
-    Image scoreFrameImg;
+    Image rewardImg; 
+    Image scoreFrameImg; 
 
-    Menu menu;
+    //declare status objects
+    MainMenu mainMenu;
     EndInterface endInterface;
     Tutorial tutorial;
 
-    Timer timer;
+    Timer timer; //timer for main game loop
     Timer barrierTimer;
-    Timer rewardTimer;
-    Timer endGameTimer;
+    Timer rewardTimer; //timer for barrier and reward items
+    Timer endGameTimer; //timer for the transition after game end
+    
+    //game physics related variables
     int jumpVelocity;
-    int maxJumpPosition;
-    int gravity = 1;
+    int maxJumpPosition; //the maximum position the sprite can reach during a jump
+    int gravity = 1; 
     int barrierVelocity = -18;
-    int bulletVelocity = 15;
+    int bulletVelocity = 15; 
+
+    //whether the sprite is in the process of a jump action
     boolean jumping = false;
 
-    // State
+    /**
+     * Game states: start menu, the game, end menu after game end, and tutorial.
+     */
     public static enum State {
         MENU,
         GAME,
         END,
         TUTORIAL
-    };
+    }
+    
+    ;
 
     public static State state = State.MENU;
 
     class Item {
-        int x;
-        int y;
-        int width;
-        int height;
-        Image img;
+        int x; 
+        int y; //the positions of the object
+        int width; 
+        int height; //the dimensions of the object
+        Image img; //Image representing the object
 
+        /**
+         * Item class constructor.
+         */
         Item(int x, int y, int width, int height, Image img) {
             this.x = x;
             this.y = y;
@@ -82,7 +100,7 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     int bulletHeight = 40;
     int bulletX = catX + catWidth;
 
-    //cool
+    //cooldown for shooting
     long lastBulletTime = 0;
     int coolDown = 500;
 
@@ -100,24 +118,24 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
     int frameX = 850;
     int frameY = 10;
 
-
+    //arraylists to store all the barriers, bullets and rewards seperately
     ArrayList<Item> barrierArray;
     ArrayList<Item> bulletArray;
     ArrayList<Item> rewardArray;
 
     boolean gameOver = false;
-    int score = 0;
+    int score = 0; //game score
 
-
-
-    public CatGame(){
+    /**
+     * Main game mechnism.
+     */
+    public CatGame() {
         setPreferredSize(new Dimension(panelWidth, panelHeight));
         setBackground(Color.lightGray);
         setFocusable(true);
         addKeyListener(this);
 
-        //render image
-
+        //load image for game elements
         catImg = new ImageIcon(getClass().getResource("/img/CatRunning.gif")).getImage();
         catDeadImg = new ImageIcon(getClass().getResource("/img/CatDead.png")).getImage();
         barrierImg1 = new ImageIcon(getClass().getResource("/img/BarrierFireHydrant.png")).getImage();
@@ -132,9 +150,9 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         rewardArray = new ArrayList<Item>();
 
         //initialize menu
-        menu = new Menu();
-        menu.addButtons(this); 
-        menu.addActionListeners(this);
+        mainMenu = new MainMenu();
+        mainMenu.addButtons(this); 
+        mainMenu.addActionListeners(this);
         //initialize end interface
         endInterface = new EndInterface();
         endInterface.addButtons(this);
@@ -154,12 +172,13 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
 
         scoreFrame = new Item(frameX, frameY, frameWidth, frameHeight, scoreFrameImg);
 
-        //determine max position
-        maxJumpPosition= catY-(jumpVelocity * jumpVelocity) /(2 * gravity) - catHeight;
+        //determine max position of the sprite
+        maxJumpPosition = catY - (jumpVelocity * jumpVelocity) / (2 * gravity) - catHeight;
 
         //game loop
-        timer = new Timer(1000/60, this);
+        timer = new Timer(1000 / 60, this);
 
+        //timer for barrier generation
         barrierTimer = new Timer(1500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
@@ -167,18 +186,20 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
             }
         });
 
+        //timer for reward generation
         rewardTimer = new Timer(1500, new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 generateReward();
             }
         });
 
+        //transition for game end screen
         endGameTimer = new Timer(1500, new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
-                state= State.END;
-                endInterface.setVisible(true);
+            public void actionPerformed(ActionEvent e) {
+                state = State.END;
+                endInterface.setVisible(true); 
                 repaint();
                 endGameTimer.stop();
             }
@@ -186,32 +207,42 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         endGameTimer.setRepeats(false);
     }
 
-    //start the game after clicking play
+    /**
+     * Starts the main game.
+     */
     void startGame() {
         state = State.GAME;
-        menu.setVisible(false); 
+        mainMenu.setVisible(false); 
         timer.start();
         barrierTimer.start();
         rewardTimer.start();
     }
 
-    //show the tutorial
+    /**
+     * Show the tutorial screen.
+     */
     void showTutorial() {
-        menu.setVisible(false); 
+        mainMenu.setVisible(false); 
         tutorial.setVisible(true);
         state = State.TUTORIAL;
         repaint();
     }
-
-    void resetGame(){
-        gameOver = false;
-        cat.img = catImg;
-        score = 0;
+    
+    /**
+     * Reset all game elements.
+     */
+    void resetGame() {
+        gameOver = false; 
+        cat.img = catImg; //change the image of the sprite from the dead to original
+        score = 0; //reset score
         barrierArray.clear();
         rewardArray.clear();
-        bulletArray.clear();
+        bulletArray.clear(); //clear all items stored in the arraylists
     }
 
+    /**
+     * Start a new instance of the game. 
+     */
     void retryGame() {
         resetGame();
         state = State.GAME;
@@ -224,34 +255,42 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         this.repaint();
     }
 
-    void showMainMenu(){
-        resetGame();
+    /**
+     * Show main menu screen.
+     */
+    void showMainMenu() {
+        //the game will also reset if the user press the main menu button in the end screen
+        resetGame(); 
         endInterface.setVisible(false);
         tutorial.setVisible(false);
         state = State.MENU;
-        menu.setVisible(true);
+        mainMenu.setVisible(true);
         repaint();
     }
-
+    
+    /**
+     * Randomly generate barriers.
+     */
     void generateBarrier() {
         if (gameOver) {
-            return;
+            return; //stop barrier generation after game ends
         }
         double barrierChance = Math.random();
         if (barrierChance > 0.90) {
             Item barrier = new Item(barrierX, barrier3Y, barrier3Width, barrier3Height, barrierImg3);
             barrierArray.add(barrier);
-        }
-        else if (barrierChance > 0.70) {
+        } else if (barrierChance > 0.70) {
             Item barrier = new Item(barrierX, barrier2Y, barrier2Width, barrier2Height, barrierImg2);
             barrierArray.add(barrier);
-        }
-        else if (barrierChance > 0.50) {
+        } else if (barrierChance > 0.50) {
             Item barrier = new Item(barrierX, barrier1Y, barrier1Width, barrier2Height, barrierImg1);
             barrierArray.add(barrier);
         }
     }
 
+    /**
+     * Randomly generate rewards.
+     */
     void generateReward() {
         if (gameOver) {
             return;
@@ -259,20 +298,25 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         double rewardChance = Math.random();
         
         if (rewardChance > 0.1) {
-            rewardY = maxJumpPosition + (int) (Math.random() * (catY - rewardHeight -maxJumpPosition));
+            //reward generates randomly between 
+            //ground level and the sprite's highest position during the jump
+            rewardY = maxJumpPosition + (int) (Math.random() * (catY - rewardHeight - maxJumpPosition));
             Item reward = new Item(rewardX, rewardY, rewardWidth, rewardHeight, rewardImg);
             rewardArray.add(reward);
         }
 
     }
 
-    public void paintComponent(Graphics g){
+    /**
+     * render based on current state of the game. 
+     */
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        //according to current state 
-        if (state == State.GAME || endGameTimer.isRunning()) {
+        //keep rendering the game during the transition after game end
+        if (state == State.GAME || endGameTimer.isRunning()) { 
             draw(g);
         } else if (state == State.MENU) {
-            menu.render(g);
+            mainMenu.render(g);
         } else if (state == State.END) {
             endInterface.render(g);
         } else if (state == State.TUTORIAL) {
@@ -280,22 +324,26 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         }
     }
 
-    public void draw(Graphics g){
+    /**
+     * draw game elements. 
+     * @param g
+     */
+    public void draw(Graphics g) {
         //draw background
         Image startImg = new ImageIcon(getClass().getResource("/img/1200-600.png")).getImage();
         g.drawImage(startImg, 0, 0, null);
         //draw barrier
-        for (int i = 0; i < barrierArray.size(); i++){
+        for (int i = 0; i < barrierArray.size(); i++) {
             Item barrier = barrierArray.get(i);
             g.drawImage(barrier.img, barrier.x, barrier.y, barrier.width, barrier.height, null);
         }
         //draw bullet
-        for (int i = 0; i < bulletArray.size(); i++){
+        for (int i = 0; i < bulletArray.size(); i++) {
             Item bullet = bulletArray.get(i);
             g.drawImage(bullet.img, bullet.x, bullet.y, bullet.width, bullet.height, null);
         }
         //draw reward
-        for (int i = 0; i < rewardArray.size(); i++){
+        for (int i = 0; i < rewardArray.size(); i++) {
             Item reward = rewardArray.get(i);
             g.drawImage(reward.img, reward.x, reward.y, reward.width, reward.height, null);
         }
@@ -305,20 +353,24 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         g.drawImage(scoreFrame.img, scoreFrame.x, scoreFrame.y, scoreFrame.width, scoreFrame.height, null);
 
         //draw score
-        g.setFont(new Font("Arial",Font.BOLD,36));
+        g.setFont(new Font("Arial", Font.BOLD, 36));
         g.setColor(Color.BLACK);
         String scoreText = "" + score;
-        g.drawString(scoreText, panelWidth - 200,48);
+        g.drawString(scoreText, panelWidth - 200, 48);
     }
 
-    public void move(){
+    /**
+     * game movement logic.
+     */
+    public void move() {
         //cat jump
         if (jumping) {
             cat.y += jumpVelocity;
             jumpVelocity += gravity;
             if (cat.y > catY) {
-                cat.y = catY;
-                jumping = false;
+                //reset sprite back to ground level when it goes beneath 
+                cat.y = catY; 
+                jumping = false; //mark the end of the current jump movement
             }
 
         }
@@ -326,13 +378,13 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         for (int i = 0; i < barrierArray.size(); i++){
             Item barrier = barrierArray.get(i);
             barrier.x += barrierVelocity;
-
+            //if the sprite hits a barrier, then game end
             if (collision(cat, barrier)) {
                 gameOver = true;
-                cat.img = catDeadImg;
+                cat.img = catDeadImg; 
             }
-
-            if (barrier.x + barrier.width < 0) { //if move outside screen
+            //delete the barrier when it moves outside the screen
+            if (barrier.x + barrier.width < 0) { 
                 barrierArray.remove(i);
                 i--; //adjust index
             }
@@ -342,50 +394,60 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         for (int i = 0; i < bulletArray.size(); i++) {
             Item bullet = bulletArray.get(i);
             bullet.x += bulletVelocity;
-
+            //delete the bullet when it move past a certain distance
             if (bullet.x > panelWidth / 3) {
                 bulletArray.remove(i);
                 i--;
             }
+            //remove both the barrier and the bullet when the bullet hits a barrier
             for (int j = 0; j < barrierArray.size(); j++) {
                 Item barrier = barrierArray.get(j);
-                if (collision(bullet, barrier)){
+                if (collision(bullet, barrier)) {
                     barrierArray.remove(j);
                     bulletArray.remove(i);
                     i--;
                 }
             }
         }
-        //reward
+        //reward move
         for (int i = 0; i < rewardArray.size(); i++) {
             Item reward = rewardArray.get(i);
             reward.x += barrierVelocity;
             for (int j = 0; j < barrierArray.size(); j++) {
                 Item barrier = barrierArray.get(j);
-                if (collision(reward, barrier)){
+                //rewards does not overlap barriers
+                if (collision(reward, barrier)) {
                     rewardArray.remove(i);
                     i--;
                     break;
                 }
             }
+            //delete rewards that move off screen
             if (reward.x + reward.width < 0) {
                 rewardArray.remove(i);
                 i--; //adjust index
             }
+            // delete the item and add to score when the sprite collides with a reward
             if (collision(reward, cat)) {
                 score += 100;
                 rewardArray.remove(i);
                 i--;
             }
         }
-        score++;
+        score++; //score increases with time
     }
 
-    boolean collision(Item itemA,Item itemB){
-        return itemA.x < itemB.x + itemB.width &&
-           itemA.x + itemA.width > itemB.x &&
-           itemA.y < itemB.y + itemB.height &&
-           itemA.y + itemA.height > itemB.y;
+    /**
+     * collision detection. 
+     * @param itemA the first item
+     * @param itemB the second item
+     * @return true when the two items collides, false when they don't
+     */
+    boolean collision(Item itemA, Item itemB) {
+        return itemA.x < itemB.x + itemB.width 
+            && itemA.x + itemA.width > itemB.x 
+            && itemA.y < itemB.y + itemB.height 
+            && itemA.y + itemA.height > itemB.y;
     }
 
     @Override
@@ -395,30 +457,36 @@ public class CatGame extends JPanel implements ActionListener, KeyListener{
         if (gameOver) {
             barrierTimer.stop();
             timer.stop();
-            rewardTimer.stop();
-            endInterface.setFinalScore(score);
-            endGameTimer.start();
+            rewardTimer.stop(); //stop all timer after game ends
+            endInterface.setFinalScore(score); //pass on the final score to the end screen 
+            endGameTimer.start(); //start the transition timer to the end screen
         }
     }
+
     @Override
     public void keyPressed(KeyEvent e) {
+        //the sprite preforms a jump action when the up key is pressed
         if (e.getKeyCode() == KeyEvent.VK_UP && !jumping) {
             jumping = true; 
             jumpVelocity = -18;
         }
+        //the sprite preforms a shoot action when the space key is pressed
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             long currentTime = System.currentTimeMillis();
-            if (currentTime - lastBulletTime >= coolDown){
-                Item bullet = new Item(bulletX, cat.y+(cat.height/2), bulletWidth, bulletHeight, bulletImg);
+            //the sprite can only shoot a bullet after the cooldown has passed
+            if (currentTime - lastBulletTime >= coolDown) { 
+                Item bullet = new Item(bulletX, cat.y + (cat.height / 2), bulletWidth, bulletHeight, bulletImg);
                 bulletArray.add(bullet);
-                lastBulletTime = currentTime;
+                lastBulletTime = currentTime; 
 
             }
         }
-        }
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
     }
+
     @Override
     public void keyReleased(KeyEvent e) {
     }
